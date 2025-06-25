@@ -1174,7 +1174,7 @@ class Classify(nn.Module):
         return self.linear(self.drop(self.pool(self.conv(x)).flatten(1)))
 
 
-class ContextAggregation(nn.Module):
+class GCAB(nn.Module):
     """
     Context Aggregation Block.
 
@@ -1186,7 +1186,7 @@ class ContextAggregation(nn.Module):
     """
 
     def __init__(self, in_channels, out_channels, reduction=1):
-        super(ContextAggregation, self).__init__()
+        super(GCAB, self).__init__()
         self.in_channels = in_channels
         self.reduction = reduction
         self.inter_channels = max(in_channels // reduction, 1)

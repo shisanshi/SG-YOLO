@@ -343,13 +343,13 @@ def parse_model(d, ch):  # model_dict, input_channels(3)
         n = n_ = max(round(n * gd), 1) if n > 1 else n  # depth gain
         if m in {
                 Conv, GhostConv, Bottleneck, GhostBottleneck, SPP, SPPF, DWConv, MixConv2d, Focus, CrossConv,
-                BottleneckCSP, C3, C3TR, C3SPP, C3Ghost, nn.ConvTranspose2d, DWConvTranspose2d, C3x, MS_CAM, C3_DCN, Transconv, ParallelPolarizedSelfAttention, EffectiveSEModule, EMA, C3_SAC, ContextBlock, ContextAggregation, C3_M, Involution}:
+                BottleneckCSP, C3, C3TR, C3SPP, C3Ghost, nn.ConvTranspose2d, DWConvTranspose2d, C3x, MS_CAM, C3_DCN, Transconv, ParallelPolarizedSelfAttention, EffectiveSEModule, EMA, C3_SAC, ContextBlock, GCAB, C3_M, Involution}:
             c1, c2 = ch[f], args[0]
             if c2 != no:  # if not output
                 c2 = make_divisible(c2 * gw, 8)
 
             args = [c1, c2, *args[1:]]
-            if m in {BottleneckCSP, C3, C3TR, C3Ghost, C3x, C3_DCN, C3_SAC, ContextAggregation, C3_M}:
+            if m in {BottleneckCSP, C3, C3TR, C3Ghost, C3x, C3_DCN, C3_SAC, GCAB, C3_M}:
                 args.insert(2, n)  # number of repeats
                 n = 1
         elif m is nn.BatchNorm2d:
@@ -374,7 +374,7 @@ def parse_model(d, ch):  # model_dict, input_channels(3)
         elif m is CFRM:
             c2 = ch[f]
             args = [c2, *args]
-        # elif m is ContextAggregation:
+        # elif m is GCAB:
         #     c2 = ch[f]
         #     args = c2
         else:
